@@ -10128,6 +10128,7 @@
         if (loaded === sourcesCount) if (errors.length === 0) try {
           return new Processing(canvas, code.join("\n"))
         } catch(e) {
+            console.log(block);
           throw "Processing.js: Unable to execute pjs sketch: " + e;
         } else throw "Processing.js: Unable to load pjs sketch files: " + errors.join("\n");
       }
@@ -10200,4 +10201,3 @@
     document.addEventListener("DOMContentLoaded", init, false)
   } else this.Processing = Processing
 })(window, window.document, Math);
-
