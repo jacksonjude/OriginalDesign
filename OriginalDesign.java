@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public void setup()
+void setup()
 {
   size(500, 500);
 }
@@ -17,24 +17,24 @@ boolean devEnabled = false;
 
 public class RippleColorStyle
 {
-  public float red;
-  public float green;
-  public float blue;
-  public boolean redStatic;
-  public boolean greenStatic;
-  public boolean blueStatic;
-  public boolean redReverse;
-  public boolean greenReverse;
-  public boolean blueReverse;
+  float red;
+  float green;
+  float blue;
+  boolean redStatic;
+  boolean greenStatic;
+  boolean blueStatic;
+  boolean redReverse;
+  boolean greenReverse;
+  boolean blueReverse;
 
-  public RippleColorStyle(float[] colorValues)
+  RippleColorStyle(float[] colorValues)
   {
     this.red = colorValues[0];
     this.green = colorValues[1];
     this.blue = colorValues[2];
   }
 
-  public RippleColorStyle(float[] colorValues, boolean[] staticValues)
+  RippleColorStyle(float[] colorValues, boolean[] staticValues)
   {
     this.red = colorValues[0];
     this.green = colorValues[1];
@@ -45,7 +45,7 @@ public class RippleColorStyle
     this.blueStatic = staticValues[2];
   }
 
-  public RippleColorStyle(float[] colorValues, boolean[] staticValues, boolean[] reverseValues)
+  RippleColorStyle(float[] colorValues, boolean[] staticValues, boolean[] reverseValues)
   {
     this.red = colorValues[0];
     this.green = colorValues[1];
@@ -60,7 +60,7 @@ public class RippleColorStyle
     this.blueReverse = reverseValues[2];
   }
 
-  public RippleColorStyle(RippleColorStyle original)
+  RippleColorStyle(RippleColorStyle original)
   {
     this.red = original.red;
     this.green = original.green;
@@ -75,39 +75,39 @@ public class RippleColorStyle
     this.blueReverse = original.blueReverse;
   }
 
-  public String toString()
+  String toString()
   {
     return "RGB: " + red + "," + green + "," + blue + " Static: " + redStatic + "," + greenStatic + "," + blueStatic + " Reverse: " + redReverse + "," + greenReverse + "," + blueReverse;
   }
 }
 
-public enum RippleShapeType
+enum RippleShapeType
 {
   CIRCLE, SQUARE, HEXAGON
 }
 
 RippleShapeType rippleShapeType = RippleShapeType.HEXAGON;
 
-public class RippleObject
+class RippleObject
 {
   int rippleSize;
   int rippleX;
   int rippleY;
   float decay = 0.0;
 
-  public RippleObject(int rippleSize, int rippleX, int rippleY)
+  RippleObject(int rippleSize, int rippleX, int rippleY)
   {
     this.rippleSize = rippleSize;
     this.rippleX = rippleX;
     this.rippleY = rippleY;
   }
 
-  public void addToRipple()
+  void addToRipple()
   {
     rippleSize += 1;
   }
 
-  public void drawRipple()
+  void drawRipple()
   {
     noStroke();
     fill(getRedColor(), getGreenColor(), getBlueColor(), 100.0-decay);
@@ -127,7 +127,7 @@ public class RippleObject
     }
   }
 
-  public void drawHex(float x, float y, float gs)
+  void drawHex(float x, float y, float gs)
   {
     beginShape();
     vertex(x - gs, y - sqrt(3) * gs);
@@ -139,12 +139,12 @@ public class RippleObject
     endShape(CLOSE);
   }
 
-  public void decay()
+  void decay()
   {
     decay += 1.0;
   }
 
-  public float getValueForMinusValue(float colorValue, boolean colorStatic, boolean colorReverse)
+  float getValueForMinusValue(float colorValue, boolean colorStatic, boolean colorReverse)
   {
     if (colorStatic)
     {
@@ -160,7 +160,7 @@ public class RippleObject
     }
   }
 
-  public float getRedColor()
+  float getRedColor()
   {
     float redMinus = colorStyles.get(selectedColorStyle).red;
     boolean redStatic = colorStyles.get(selectedColorStyle).redStatic;
@@ -168,7 +168,7 @@ public class RippleObject
     return getValueForMinusValue(redMinus, redStatic, redReverse);
   }
 
-  public float getGreenColor()
+  float getGreenColor()
   {
     float greenMinus = colorStyles.get(selectedColorStyle).green;
     boolean greenStatic = colorStyles.get(selectedColorStyle).greenStatic;
@@ -176,7 +176,7 @@ public class RippleObject
     return getValueForMinusValue(greenMinus, greenStatic, greenReverse);
   }
 
-  public float getBlueColor()
+  float getBlueColor()
   {
     float blueMinus = colorStyles.get(selectedColorStyle).blue;
     boolean blueStatic = colorStyles.get(selectedColorStyle).blueStatic;
@@ -185,11 +185,11 @@ public class RippleObject
   }
 }
 
-public ArrayList<RippleObject> rippleArray = new ArrayList<RippleObject>();
-public int lastMouseX = 0;
-public int lastMouseY = 0;
+ArrayList<RippleObject> rippleArray = new ArrayList<RippleObject>();
+int lastMouseX = 0;
+int lastMouseY = 0;
 
-public void draw()
+void draw()
 {
   clear();
   background(204);
@@ -243,7 +243,7 @@ boolean mouseControlling = false;
 float lastDegree = 0.0;
 float radius = 15.0;
 
-public int[] getRippleCoords()
+int[] getRippleCoords()
 {
   if (mouseControlling)
   {
@@ -263,9 +263,9 @@ public int[] getRippleCoords()
   }
 }
 
-public final String[] commands = {"red", "green", "blue", "redstatic", "greenstatic", "bluestatic", "redreverse", "greenreverse", "bluereverse", "preset", "dev"};
+final String[] commands = {"red", "green", "blue", "redstatic", "greenstatic", "bluestatic", "redreverse", "greenreverse", "bluereverse", "preset", "dev"};
 
-public void keyPressed()
+void keyPressed()
 {
   String keyString = Character.toString(key);
 
@@ -403,7 +403,6 @@ public void keyPressed()
       println(commandsThatContainSubCommand);
 
       styleSelection = commandsThatContainSubCommand.get(0).substring(0, equalPrefixSize+1) + ((commandsThatContainSubCommand.get(0).length() == equalPrefixSize+1 && commandsThatContainSubCommand.size() == 1) ? " " : "");
-      //Add completion results to success selection text
 
       styleSelectionSuccess = "";
       styleSelectionError = "";
@@ -412,7 +411,7 @@ public void keyPressed()
   }
 }
 
-public void mousePressed()
+void mousePressed()
 {
   switch (mouseButton)
   {
