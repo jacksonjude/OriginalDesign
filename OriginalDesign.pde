@@ -1,12 +1,12 @@
-import java.util.Arrays;
-
-void setup()
+public void setup()
 {
   size(500, 500);
 }
 
-//ArrayList<RippleColorStyle> colorStyles = new ArrayList<RippleColorStyle>(Arrays.asList(new RippleColorStyle(new float[] {0, 0, 0}), new RippleColorStyle(new float[] {0, 0, 100}, new boolean[] {false, true, false}, new boolean[] {true, false, false})));
-//int selectedColorStyle = 1;
+ArrayList<RippleColorStyle> colorStyles = new ArrayList<RippleColorStyle>()
+colorStyles.add(new RippleColorStyle(new float[] {0, 0, 0}));
+colorStyles.add(new RippleColorStyle(new float[] {0, 0, 100}, new boolean[] {false, true, false}, new boolean[] {true, false, false}));
+int selectedColorStyle = 1;
 
 String styleSelection = "";
 String styleSelectionError = "";
@@ -15,26 +15,26 @@ String styleSelectionCompletion = "";
 boolean devShowing = false;
 boolean devEnabled = false;
 
-/*class RippleColorStyle
+public class RippleColorStyle
 {
-  float red;
-  float green;
-  float blue;
-  boolean redStatic;
-  boolean greenStatic;
-  boolean blueStatic;
-  boolean redReverse;
-  boolean greenReverse;
-  boolean blueReverse;
+  public float red;
+  public float green;
+  public float blue;
+  public boolean redStatic;
+  public boolean greenStatic;
+  public boolean blueStatic;
+  public boolean redReverse;
+  public boolean greenReverse;
+  public boolean blueReverse;
 
-  RippleColorStyle(float[] colorValues)
+  public RippleColorStyle(float[] colorValues)
   {
     this.red = colorValues[0];
     this.green = colorValues[1];
     this.blue = colorValues[2];
   }
 
-  RippleColorStyle(float[] colorValues, boolean[] staticValues)
+  public RippleColorStyle(float[] colorValues, boolean[] staticValues)
   {
     this.red = colorValues[0];
     this.green = colorValues[1];
@@ -45,7 +45,7 @@ boolean devEnabled = false;
     this.blueStatic = staticValues[2];
   }
 
-  RippleColorStyle(float[] colorValues, boolean[] staticValues, boolean[] reverseValues)
+  public RippleColorStyle(float[] colorValues, boolean[] staticValues, boolean[] reverseValues)
   {
     this.red = colorValues[0];
     this.green = colorValues[1];
@@ -60,7 +60,7 @@ boolean devEnabled = false;
     this.blueReverse = reverseValues[2];
   }
 
-  RippleColorStyle(RippleColorStyle original)
+  public RippleColorStyle(RippleColorStyle original)
   {
     this.red = original.red;
     this.green = original.green;
@@ -75,59 +75,54 @@ boolean devEnabled = false;
     this.blueReverse = original.blueReverse;
   }
 
-  String toString()
+  public String toString()
   {
     return "RGB: " + red + "," + green + "," + blue + " Static: " + redStatic + "," + greenStatic + "," + blueStatic + " Reverse: " + redReverse + "," + greenReverse + "," + blueReverse;
   }
-}*/
-
-enum RippleShapeType
-{
-  CIRCLE, SQUARE, HEXAGON
 }
 
-RippleShapeType rippleShapeType = RippleShapeType.HEXAGON;
+int rippleShapeType = 0;
 
-class RippleObject
+public class RippleObject
 {
   int rippleSize;
   int rippleX;
   int rippleY;
   float decay = 0.0;
 
-  RippleObject(int rippleSize, int rippleX, int rippleY)
+  public RippleObject(int rippleSize, int rippleX, int rippleY)
   {
     this.rippleSize = rippleSize;
     this.rippleX = rippleX;
     this.rippleY = rippleY;
   }
 
-  void addToRipple()
+  public void addToRipple()
   {
     rippleSize += 1;
   }
 
-  void drawRipple()
+  public void drawRipple()
   {
     noStroke();
     fill(getRedColor(), getGreenColor(), getBlueColor(), 100.0-decay);
 
     switch (rippleShapeType)
     {
-      case HEXAGON:
+        case 0:
         drawHex(rippleX, rippleY, rippleSize/3.0);
         break;
-      case SQUARE:
+        case 1:
         rectMode(CENTER);
         rect(rippleX, rippleY, rippleSize, rippleSize);
         break;
-      case CIRCLE:
+        case 2:
         ellipse(rippleX, rippleY, rippleSize, rippleSize);
         break;
     }
   }
 
-  void drawHex(float x, float y, float gs)
+  public void drawHex(float x, float y, float gs)
   {
     beginShape();
     vertex(x - gs, y - sqrt(3) * gs);
@@ -139,12 +134,12 @@ class RippleObject
     endShape(CLOSE);
   }
 
-  void decay()
+  public void decayObject()
   {
     decay += 1.0;
   }
 
-  float getValueForMinusValue(float colorValue, boolean colorStatic, boolean colorReverse)
+  public float getValueForMinusValue(float colorValue, boolean colorStatic, boolean colorReverse)
   {
     if (colorStatic)
     {
@@ -160,7 +155,7 @@ class RippleObject
     }
   }
 
-  /*float getRedColor()
+  public float getRedColor()
   {
     float redMinus = colorStyles.get(selectedColorStyle).red;
     boolean redStatic = colorStyles.get(selectedColorStyle).redStatic;
@@ -168,7 +163,7 @@ class RippleObject
     return getValueForMinusValue(redMinus, redStatic, redReverse);
   }
 
-  float getGreenColor()
+  public float getGreenColor()
   {
     float greenMinus = colorStyles.get(selectedColorStyle).green;
     boolean greenStatic = colorStyles.get(selectedColorStyle).greenStatic;
@@ -176,40 +171,24 @@ class RippleObject
     return getValueForMinusValue(greenMinus, greenStatic, greenReverse);
   }
 
-  float getBlueColor()
+  public float getBlueColor()
   {
     float blueMinus = colorStyles.get(selectedColorStyle).blue;
     boolean blueStatic = colorStyles.get(selectedColorStyle).blueStatic;
     boolean blueReverse = colorStyles.get(selectedColorStyle).blueReverse;
     return getValueForMinusValue(blueMinus, blueStatic, blueReverse);
-  }*/
-
-  float getRedColor()
-  {
-    return getValueForMinusValue(0, false, true);
-  }
-
-  float getGreenColor()
-  {
-    return getValueForMinusValue(0, true, false);
-  }
-
-  float getBlueColor()
-  {
-    return getValueForMinusValue(100, false, false);
   }
 }
 
-ArrayList<RippleObject> rippleArray = new ArrayList<RippleObject>();
-int lastMouseX = 0;
-int lastMouseY = 0;
+public ArrayList<RippleObject> rippleArray = new ArrayList<RippleObject>();
+public int lastMouseX = 0;
+public int lastMouseY = 0;
 
-void draw()
+public void draw()
 {
-  clear();
   background(204);
 
-  /*if (devShowing)
+  if (devShowing)
   {
     fill(0);
     text(selectedColorStyle + " " + colorStyles.get(selectedColorStyle).toString(), 10, 20);
@@ -223,13 +202,13 @@ void draw()
     fill(40, 60, 180);
     stroke(0);
     text(styleSelectionSuccess != "" ? "" + styleSelectionCompletion : "", 10, 60);
-  }*/
+  }
 
   for (int i=0; i<rippleArray.size(); i++)
   {
     RippleObject rippleObject = rippleArray.get(i);
     rippleObject.addToRipple();
-    rippleObject.decay();
+    rippleObject.decayObject();
     rippleObject.drawRipple();
 
     if (rippleObject.decay >= 100.0)
@@ -237,14 +216,6 @@ void draw()
       rippleArray.remove(i);
     }
   }
-
-  /*if (lastMouseX != mouseX || lastMouseY != mouseY)
-  {
-    lastMouseX = mouseX;
-    lastMouseY = mouseY;
-
-    rippleArray.add(new RippleObject(1, mouseX, mouseY));
-  }*/
 
   int[] rippleCoords = getRippleCoords();
   if (rippleCoords[0] == 1)
@@ -256,9 +227,9 @@ void draw()
 boolean mouseControlling = false;
 
 float lastDegree = 0.0;
-float radius = 15.0;
+float radius = 30.0;
 
-int[] getRippleCoords()
+public int[] getRippleCoords()
 {
   if (mouseControlling)
   {
@@ -278,11 +249,13 @@ int[] getRippleCoords()
   }
 }
 
-final String[] commands = {"red", "green", "blue", "redstatic", "greenstatic", "bluestatic", "redreverse", "greenreverse", "bluereverse", "preset", "dev"};
+public final String[] commands = {"red", "green", "blue", "redstatic", "greenstatic", "bluestatic", "redreverse", "greenreverse", "bluereverse", "preset", "dev"};
 
-/*void keyPressed()
+public void keyPressed()
 {
-  String keyString = Character.toString(key);
+  //String keyString = Character.toString(key);
+  //String keyString = String.valueOf(key);
+  String keyString = "" + key;
 
   if ((key == ENTER || key == RETURN) && styleSelection != "" && styleSelection.split(" ").length >= 2)
   {
@@ -425,24 +398,24 @@ final String[] commands = {"red", "green", "blue", "redstatic", "greenstatic", "
       styleSelectionCompletion = commandsThatContainSubCommand.toString();
     }
   }
-}*/
+}
 
-void mousePressed()
+public void mousePressed()
 {
   switch (mouseButton)
   {
     case LEFT:
       switch (rippleShapeType)
       {
-        case HEXAGON:
-          rippleShapeType = RippleShapeType.CIRCLE;
-          break;
-        case CIRCLE:
-          rippleShapeType = RippleShapeType.SQUARE;
-          break;
-        case SQUARE:
-          rippleShapeType = RippleShapeType.HEXAGON;
-          break;
+          case 0:
+            rippleShapeType = 1;
+            break;
+          case 1:
+            rippleShapeType = 2;
+            break;
+          case 2:
+            rippleShapeType = 0;
+            break;
       }
       break;
     case RIGHT:
