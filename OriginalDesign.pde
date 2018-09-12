@@ -5,8 +5,8 @@ void setup()
   size(500, 500);
 }
 
-ArrayList<RippleColorStyle> colorStyles = new ArrayList<RippleColorStyle>(Arrays.asList(new RippleColorStyle(new float[] {0, 0, 0}), new RippleColorStyle(new float[] {0, 0, 100}, new boolean[] {false, true, false}, new boolean[] {true, false, false})));
-int selectedColorStyle = 1;
+//ArrayList<RippleColorStyle> colorStyles = new ArrayList<RippleColorStyle>(Arrays.asList(new RippleColorStyle(new float[] {0, 0, 0}), new RippleColorStyle(new float[] {0, 0, 100}, new boolean[] {false, true, false}, new boolean[] {true, false, false})));
+//int selectedColorStyle = 1;
 
 String styleSelection = "";
 String styleSelectionError = "";
@@ -15,7 +15,7 @@ String styleSelectionCompletion = "";
 boolean devShowing = false;
 boolean devEnabled = false;
 
-public class RippleColorStyle
+/*class RippleColorStyle
 {
   float red;
   float green;
@@ -79,7 +79,7 @@ public class RippleColorStyle
   {
     return "RGB: " + red + "," + green + "," + blue + " Static: " + redStatic + "," + greenStatic + "," + blueStatic + " Reverse: " + redReverse + "," + greenReverse + "," + blueReverse;
   }
-}
+}*/
 
 enum RippleShapeType
 {
@@ -160,7 +160,7 @@ class RippleObject
     }
   }
 
-  float getRedColor()
+  /*float getRedColor()
   {
     float redMinus = colorStyles.get(selectedColorStyle).red;
     boolean redStatic = colorStyles.get(selectedColorStyle).redStatic;
@@ -182,6 +182,21 @@ class RippleObject
     boolean blueStatic = colorStyles.get(selectedColorStyle).blueStatic;
     boolean blueReverse = colorStyles.get(selectedColorStyle).blueReverse;
     return getValueForMinusValue(blueMinus, blueStatic, blueReverse);
+  }*/
+
+  float getRedColor()
+  {
+    return getValueForMinusValue(0, false, true);
+  }
+
+  float getGreenColor()
+  {
+    return getValueForMinusValue(0, true, false);
+  }
+
+  float getBlueColor()
+  {
+    return getValueForMinusValue(100, false, false);
   }
 }
 
@@ -194,7 +209,7 @@ void draw()
   clear();
   background(204);
 
-  if (devShowing)
+  /*if (devShowing)
   {
     fill(0);
     text(selectedColorStyle + " " + colorStyles.get(selectedColorStyle).toString(), 10, 20);
@@ -208,7 +223,7 @@ void draw()
     fill(40, 60, 180);
     stroke(0);
     text(styleSelectionSuccess != "" ? "" + styleSelectionCompletion : "", 10, 60);
-  }
+  }*/
 
   for (int i=0; i<rippleArray.size(); i++)
   {
@@ -265,7 +280,7 @@ int[] getRippleCoords()
 
 final String[] commands = {"red", "green", "blue", "redstatic", "greenstatic", "bluestatic", "redreverse", "greenreverse", "bluereverse", "preset", "dev"};
 
-void keyPressed()
+/*void keyPressed()
 {
   String keyString = Character.toString(key);
 
@@ -403,13 +418,14 @@ void keyPressed()
       println(commandsThatContainSubCommand);
 
       styleSelection = commandsThatContainSubCommand.get(0).substring(0, equalPrefixSize+1) + ((commandsThatContainSubCommand.get(0).length() == equalPrefixSize+1 && commandsThatContainSubCommand.size() == 1) ? " " : "");
+      //Add completion results to success selection text
 
       styleSelectionSuccess = "";
       styleSelectionError = "";
       styleSelectionCompletion = commandsThatContainSubCommand.toString();
     }
   }
-}
+}*/
 
 void mousePressed()
 {
