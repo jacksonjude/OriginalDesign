@@ -1,11 +1,11 @@
 public void setup()
 {
   size(500, 500);
+  colorStyles.add(new RippleColorStyle(new float[] {0, 0, 0}));
+  colorStyles.add(new RippleColorStyle(new float[] {0, 0, 100}, new boolean[] {false, true, false}, new boolean[] {true, false, false}));
 }
 
-ArrayList<RippleColorStyle> colorStyles = new ArrayList<RippleColorStyle>()
-colorStyles.add(new RippleColorStyle(new float[] {0, 0, 0}));
-colorStyles.add(new RippleColorStyle(new float[] {0, 0, 100}, new boolean[] {false, true, false}, new boolean[] {true, false, false}));
+ArrayList<RippleColorStyle> colorStyles = new ArrayList<RippleColorStyle>();
 int selectedColorStyle = 1;
 
 String styleSelection = "";
@@ -201,7 +201,7 @@ public void draw()
     text(styleSelectionSuccess != "" ? "Success: " + styleSelectionSuccess : "", 10, 60);
     fill(40, 60, 180);
     stroke(0);
-    text(styleSelectionSuccess != "" ? "" + styleSelectionCompletion : "", 10, 60);
+    text(styleSelectionSuccess == "" ? "" + styleSelectionCompletion : "", 10, 60);
   }
 
   for (int i=0; i<rippleArray.size(); i++)
@@ -387,7 +387,6 @@ public void keyPressed()
         }
       }
 
-      println(equalPrefixSize);
       println(commandsThatContainSubCommand);
 
       styleSelection = commandsThatContainSubCommand.get(0).substring(0, equalPrefixSize+1) + ((commandsThatContainSubCommand.get(0).length() == equalPrefixSize+1 && commandsThatContainSubCommand.size() == 1) ? " " : "");
