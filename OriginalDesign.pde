@@ -255,9 +255,10 @@ public void keyPressed()
 {
   //String keyString = Character.toString(key);
   //String keyString = String.valueOf(key);
-  String keyString = "" + key;
+  char charKey = char(key);
+  String keyString = "" + charKey;
 
-  if ((key == ENTER || key == RETURN) && styleSelection != "" && styleSelection.split(" ").length >= 2)
+  if ((charKey == ENTER || charKey == RETURN) && styleSelection != "" && styleSelection.split(" ").length >= 2)
   {
     String stylePartSelection = styleSelection.split(" ")[0];
     String styleSelectionValue = styleSelection.split(" ")[1];
@@ -334,25 +335,25 @@ public void keyPressed()
 
     styleSelection = "";
   }
-  else if ((key == ENTER || key == RETURN) && styleSelection.length() <= 0)
+  else if ((charKey == ENTER || charKey == RETURN) && styleSelection.length() <= 0)
   {
     devEnabled = !devEnabled;
     devShowing = devEnabled ? true : devShowing;
   }
-  else if (key == ENTER || key == RETURN)
+  else if (charKey == ENTER || charKey == RETURN)
   {
     styleSelectionSuccess = "";
     styleSelectionError = "Type a command, then a value";
   }
-  else if (devEnabled && key != BACKSPACE && key != DELETE && key != ENTER && key != RETURN && key != TAB)
+  else if (devEnabled && charKey != BACKSPACE && charKey != DELETE && charKey != ENTER && charKey != RETURN && charKey != TAB)
   {
     styleSelection += keyString;
   }
-  else if ((key == DELETE || key == BACKSPACE) && styleSelection.length() > 0)
+  else if ((charKey == DELETE || charKey == BACKSPACE) && styleSelection.length() > 0)
   {
     styleSelection = styleSelection.substring(0, styleSelection.length() - 1);
   }
-  else if ((key == TAB) && styleSelection.length() > 0 && styleSelection.split(" ").length == 1)
+  else if ((charKey == TAB) && styleSelection.length() > 0 && styleSelection.split(" ").length == 1)
   {
     ArrayList<String> commandsThatContainSubCommand = new ArrayList<String>();
     for (int i=0; commands.length > i; i++)
@@ -387,7 +388,7 @@ public void keyPressed()
         }
       }
 
-      println(commandsThatContainSubCommand);
+      //println(commandsThatContainSubCommand);
 
       styleSelection = commandsThatContainSubCommand.get(0).substring(0, equalPrefixSize+1) + ((commandsThatContainSubCommand.get(0).length() == equalPrefixSize+1 && commandsThatContainSubCommand.size() == 1) ? " " : "");
       //Add completion results to success selection text
