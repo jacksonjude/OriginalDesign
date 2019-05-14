@@ -255,7 +255,7 @@ public void keyPressed()
 {
   //String keyString = Character.toString(key);
   //String keyString = String.valueOf(key);
-  char charKey = str(char(keyCode));
+  char charKey = str(char(keyCode)).toLowerCase();
   String keyString = "" + charKey;
 
   if ((key == ENTER || key == RETURN) && styleSelection != "" && styleSelection.split(" ").length >= 2)
