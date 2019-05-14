@@ -258,7 +258,7 @@ public void keyPressed()
   char charKey = char(key);
   String keyString = "" + charKey;
 
-  if ((charKey == ENTER || charKey == RETURN) && styleSelection != "" && styleSelection.split(" ").length >= 2)
+  if ((key == ENTER || key == RETURN) && styleSelection != "" && styleSelection.split(" ").length >= 2)
   {
     String stylePartSelection = styleSelection.split(" ")[0];
     String styleSelectionValue = styleSelection.split(" ")[1];
@@ -335,25 +335,25 @@ public void keyPressed()
 
     styleSelection = "";
   }
-  else if ((charKey == ENTER || charKey == RETURN) && styleSelection.length() <= 0)
+  else if ((key == ENTER || key == RETURN) && styleSelection.length() <= 0)
   {
     devEnabled = !devEnabled;
     devShowing = devEnabled ? true : devShowing;
   }
-  else if (charKey == ENTER || charKey == RETURN)
+  else if (key == ENTER || key == RETURN)
   {
     styleSelectionSuccess = "";
     styleSelectionError = "Type a command, then a value";
   }
-  else if (devEnabled && charKey != BACKSPACE && charKey != DELETE && charKey != ENTER && charKey != RETURN && charKey != TAB)
+  else if (devEnabled && key != BACKSPACE && key != DELETE && key != ENTER && key != RETURN && key != TAB)
   {
     styleSelection += keyString;
   }
-  else if ((charKey == DELETE || charKey == BACKSPACE) && styleSelection.length() > 0)
+  else if ((key == DELETE || key == BACKSPACE) && styleSelection.length() > 0)
   {
     styleSelection = styleSelection.substring(0, styleSelection.length() - 1);
   }
-  else if ((charKey == TAB) && styleSelection.length() > 0 && styleSelection.split(" ").length == 1)
+  else if ((key == TAB) && styleSelection.length() > 0 && styleSelection.split(" ").length == 1)
   {
     ArrayList<String> commandsThatContainSubCommand = new ArrayList<String>();
     for (int i=0; commands.length > i; i++)
