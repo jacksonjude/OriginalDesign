@@ -283,30 +283,30 @@ public void keyPressed()
         break;
       case "3":
       case "redstatic":
-        colorStyles.get(selectedColorStyle).redStatic = Boolean.parseBoolean(styleSelectionValue);
+        colorStyles.get(selectedColorStyle).redStatic = boolean(styleSelectionValue);
         break;
       case "4":
       case "greenstatic":
-        colorStyles.get(selectedColorStyle).greenStatic = Boolean.parseBoolean(styleSelectionValue);
+        colorStyles.get(selectedColorStyle).greenStatic = boolean(styleSelectionValue);
         break;
       case "5":
       case "bluestatic":
-        colorStyles.get(selectedColorStyle).blueStatic = Boolean.parseBoolean(styleSelectionValue);
+        colorStyles.get(selectedColorStyle).blueStatic = boolean(styleSelectionValue);
         break;
       case "6":
       case "redreverse":
-        colorStyles.get(selectedColorStyle).redReverse = Boolean.parseBoolean(styleSelectionValue);
+        colorStyles.get(selectedColorStyle).redReverse = boolean(styleSelectionValue);
         break;
       case "7":
       case "greenreverse":
-        colorStyles.get(selectedColorStyle).greenReverse = Boolean.parseBoolean(styleSelectionValue);
+        colorStyles.get(selectedColorStyle).greenReverse = boolean(styleSelectionValue);
         break;
       case "8":
       case "bluereverse":
-        colorStyles.get(selectedColorStyle).blueReverse = Boolean.parseBoolean(styleSelectionValue);
+        colorStyles.get(selectedColorStyle).blueReverse = boolean(styleSelectionValue);
         break;
       case "dev":
-        devShowing = Boolean.parseBoolean(styleSelectionValue);
+        devShowing = boolean(styleSelectionValue);
         break;
       case "preset":
         if (colorStyles.size() > parseInt(styleSelectionValue) && parseInt(styleSelectionValue) >= 0)
