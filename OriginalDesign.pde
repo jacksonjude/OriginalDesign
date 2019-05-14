@@ -345,7 +345,7 @@ public void keyPressed()
     styleSelectionSuccess = "";
     styleSelectionError = "Type a command, then a value";
   }
-  else if (devEnabled && key != BACKSPACE && key != DELETE && key != ENTER && key != RETURN && key != TAB)
+  else if (devEnabled && key != BACKSPACE && key != DELETE && key != ENTER && key != RETURN && key != TAB && key != 192)
   {
     styleSelection += keyString;
   }
@@ -353,7 +353,7 @@ public void keyPressed()
   {
     styleSelection = styleSelection.substring(0, styleSelection.length() - 1);
   }
-  else if ((key == TAB) && styleSelection.length() > 0 && styleSelection.split(" ").length == 1)
+  else if ((key == TAB || key == 192) && styleSelection.length() > 0 && styleSelection.split(" ").length == 1)
   {
     ArrayList<String> commandsThatContainSubCommand = new ArrayList<String>();
     for (int i=0; commands.length > i; i++)
