@@ -308,11 +308,11 @@ public void keyPressed()
         devShowing = Boolean.parseBoolean(styleSelectionValue);
         break;
       case "preset":
-        if (colorStyles.size() > parseInt(styleSelectionValue))
+        if (colorStyles.size() > parseInt(styleSelectionValue) && parseInt(styleSelectionValue) >= 0)
         {
           selectedColorStyle = parseInt(styleSelectionValue);
         }
-        else if (colorStyles.size()+1 > parseInt(styleSelectionValue))
+        else if (colorStyles.size()+1 > parseInt(styleSelectionValue) && parseInt(styleSelectionValue) >= 0)
         {
           colorStyles.add(new RippleColorStyle(colorStyles.get(0)));
           selectedColorStyle = parseInt(styleSelectionValue);
