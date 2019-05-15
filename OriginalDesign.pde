@@ -375,11 +375,11 @@ public void keyPressed()
         break;
       case "export":
         String exportData = getExportData();
-        saveStrings("presets/" + styleSelectionValue, new String[] {exportData});
+        saveStrings("data/presets/" + styleSelectionValue, new String[] {exportData});
         styleSelectionSuccess = getExportData();
         break;
       case "import":
-        String[] presetsFile = loadStrings("presets/" + styleSelectionValue);
+        String[] presetsFile = loadStrings("data/presets/" + styleSelectionValue);
 
         if (styleSelectionValue.substring(0, 1).equals("[") && styleSelectionValue.substring(styleSelectionValue.length()-1, styleSelectionValue.length()).equals("]"))
         {
