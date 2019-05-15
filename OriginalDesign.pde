@@ -1,6 +1,6 @@
 public void setup()
 {
-  size(650, 650);
+  size(610, 610);
   colorStyles.add(new RippleColorStyle(new float[] {0, 0, 0}));
   colorStyles.add(new RippleColorStyle(new float[] {0, 0, 100}, new boolean[] {false, true, false}, new boolean[] {true, false, false}, new float[] {30.0, 7.0, 1.0}));
 }
@@ -127,7 +127,7 @@ public class RippleColorStyle
 
   public String toString()
   {
-    return "RGB: " + red + "," + green + "," + blue + "  Static: " + redStatic + "," + greenStatic + "," + blueStatic + "  Reverse: " + redReverse + "," + greenReverse + "," + blueReverse + "  Shape (RDD): " + radius + "," + degreeAmountToAdd + "," + decayAmount;
+    return "RGB: " + red + "," + green + "," + blue + "  Static: " + redStatic + "," + greenStatic + "," + blueStatic + "  Reverse: " + redReverse + "," + greenReverse + "," + blueReverse + "  Shape: " + radius + "," + degreeAmountToAdd + "," + decayAmount;
   }
 
   public String getExportString(String sep)
