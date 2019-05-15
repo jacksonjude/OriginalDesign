@@ -27,6 +27,11 @@ public class RippleColorStyle
   public boolean greenReverse = false;
   public boolean blueReverse = false;
 
+  public RippleColorStyle()
+  {
+    
+  }
+
   public RippleColorStyle(float[] colorValues)
   {
     this.red = colorValues[0];
@@ -318,7 +323,7 @@ public void keyPressed()
         }
         else if (colorStyles.size()+1 > parseInt(styleSelectionValue) && parseInt(styleSelectionValue) >= 0)
         {
-          colorStyles.add(new RippleColorStyle(colorStyles.get(0)));
+          colorStyles.add(new RippleColorStyle());
           selectedColorStyle = parseInt(styleSelectionValue);
         }
         else
