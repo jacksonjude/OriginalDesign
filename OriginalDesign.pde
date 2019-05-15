@@ -188,8 +188,13 @@ public void draw()
 {
   background(204);
 
+  fill(0);
+  textAlign(RIGHT);
+  text(round(frameRate), width-10, 20);
+
   if (devShowing)
   {
+    textAlign(LEFT);
     fill(0);
     text(selectedColorStyle + " " + colorStyles.get(selectedColorStyle).toString(), 10, 20);
     fill(0);
@@ -253,9 +258,7 @@ public final String[] commands = {"red", "green", "blue", "redstatic", "greensta
 
 public void keyPressed()
 {
-  //String keyString = Character.toString(key);
-  //String keyString = String.valueOf(key);
-  char charKey = str(char(keyCode)).toLowerCase();
+  String charKey = str(char(keyCode)).toLowerCase();
   String keyString = "" + charKey;
 
   if ((key == ENTER || key == RETURN) && styleSelection != "" && styleSelection.split(" ").length >= 2)
@@ -395,7 +398,7 @@ public void keyPressed()
 
       styleSelectionSuccess = "";
       styleSelectionError = "";
-      styleSelectionCompletion = commandsThatContainSubCommand.toString();
+      styleSelectionCompletion = str(commandsThatContainSubCommand);
     }
   }
 }
