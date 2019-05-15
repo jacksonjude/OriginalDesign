@@ -398,9 +398,19 @@ public void keyPressed()
 
       styleSelectionSuccess = "";
       styleSelectionError = "";
-      styleSelectionCompletion = str(commandsThatContainSubCommand);
+      styleSelectionCompletion = arrayToString(commandsThatContainSubCommand);
     }
   }
+}
+
+public String arrayToString(ArrayList arr)
+{
+  String str = "[";
+  for (Object obj : arr)
+    str += obj.toString() + ", ";
+  str = str.substring(0, str.length()-2);
+  str += "]";
+  return str;
 }
 
 public void mousePressed()
