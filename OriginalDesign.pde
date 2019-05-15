@@ -1,8 +1,8 @@
 public void setup()
 {
-  size(500, 500);
+  size(650, 650);
   colorStyles.add(new RippleColorStyle(new float[] {0, 0, 0}));
-  colorStyles.add(new RippleColorStyle(new float[] {0, 0, 100}, new boolean[] {false, true, false}, new boolean[] {true, false, false}));
+  colorStyles.add(new RippleColorStyle(new float[] {0, 0, 100}, new boolean[] {false, true, false}, new boolean[] {true, false, false}, new float[] {30.0, 7.0, 1.0}));
 }
 
 ArrayList<RippleColorStyle> colorStyles = new ArrayList<RippleColorStyle>();
@@ -17,19 +17,36 @@ boolean devEnabled = false;
 
 public class RippleColorStyle
 {
-  public float red = 0.0;
-  public float green = 0.0;
-  public float blue = 0.0;
-  public boolean redStatic = false;
-  public boolean greenStatic = false;
-  public boolean blueStatic = false;
-  public boolean redReverse = false;
-  public boolean greenReverse = false;
-  public boolean blueReverse = false;
+  public float red;
+  public float green;
+  public float blue;
+  public boolean redStatic;
+  public boolean greenStatic;
+  public boolean blueStatic;
+  public boolean redReverse;
+  public boolean greenReverse;
+  public boolean blueReverse;
+  public float radius;
+  public float degreeAmountToAdd;
+  public float decayAmount;
 
   public RippleColorStyle()
   {
-    
+    this.red = 0.0;
+    this.green = 0.0;
+    this.blue = 0.0;
+
+    this.redStatic = false;
+    this.greenStatic = false;
+    this.blueStatic = false;
+
+    this.redReverse = false;
+    this.greenReverse = false;
+    this.blueReverse = false;
+
+    this.radius = 30.0;
+    this.degreeAmountToAdd = 7.0;
+    this.decayAmount = 1.0;
   }
 
   public RippleColorStyle(float[] colorValues)
@@ -37,20 +54,21 @@ public class RippleColorStyle
     this.red = colorValues[0];
     this.green = colorValues[1];
     this.blue = colorValues[2];
+
+    this.redStatic = false;
+    this.greenStatic = false;
+    this.blueStatic = false;
+
+    this.redReverse = false;
+    this.greenReverse = false;
+    this.blueReverse = false;
+
+    this.radius = 30.0;
+    this.degreeAmountToAdd = 7.0;
+    this.decayAmount = 1.0;
   }
 
-  public RippleColorStyle(float[] colorValues, boolean[] staticValues)
-  {
-    this.red = colorValues[0];
-    this.green = colorValues[1];
-    this.blue = colorValues[2];
-
-    this.redStatic = staticValues[0];
-    this.greenStatic = staticValues[1];
-    this.blueStatic = staticValues[2];
-  }
-
-  public RippleColorStyle(float[] colorValues, boolean[] staticValues, boolean[] reverseValues)
+  public RippleColorStyle(float[] colorValues, boolean[] staticValues, boolean[] reverseValues, float[] shapeValues)
   {
     this.red = colorValues[0];
     this.green = colorValues[1];
@@ -63,6 +81,29 @@ public class RippleColorStyle
     this.redReverse = reverseValues[0];
     this.greenReverse = reverseValues[1];
     this.blueReverse = reverseValues[2];
+
+    this.radius = shapeValues[0];
+    this.degreeAmountToAdd = shapeValues[1];
+    this.decayAmount = shapeValues[2];
+  }
+
+  public RippleColorStyle(String[] data)
+  {
+    this.red = data.length > 0 ? float(data[0]) : 0.0;
+    this.green = data.length > 1 ? float(data[1]) : 0.0;
+    this.blue = data.length > 2 ? float(data[2]) : 0.0;
+
+    this.redStatic = data.length > 3 ? boolean(int(data[3])) : false;
+    this.greenStatic = data.length > 4 ? boolean(int(data[4])) : false;
+    this.blueStatic = data.length > 5 ? boolean(int(data[5])) : false;
+
+    this.redReverse = data.length > 6 ? boolean(int(data[6])) : false;
+    this.greenReverse = data.length > 7 ? boolean(int(data[7])) : false;
+    this.blueReverse = data.length > 8 ? boolean(int(data[8])) : false;
+
+    this.radius = data.length > 9 ? float(data[9]) : 30.0;
+    this.degreeAmountToAdd = data.length > 10 ? float(data[10]) : 7.0;
+    this.decayAmount = data.length > 11 ? float(data[11]) : 1.0;
   }
 
   public RippleColorStyle(RippleColorStyle original)
@@ -78,11 +119,20 @@ public class RippleColorStyle
     this.redReverse = original.redReverse;
     this.greenReverse = original.greenReverse;
     this.blueReverse = original.blueReverse;
+
+    this.radius = original.radius;
+    this.degreeAmountToAdd = original.degreeAmountToAdd;
+    this.decayAmount = original.decayAmount;
   }
 
   public String toString()
   {
-    return "RGB: " + red + "," + green + "," + blue + " Static: " + redStatic + "," + greenStatic + "," + blueStatic + " Reverse: " + redReverse + "," + greenReverse + "," + blueReverse;
+    return "RGB: " + red + "," + green + "," + blue + "  Static: " + redStatic + "," + greenStatic + "," + blueStatic + "  Reverse: " + redReverse + "," + greenReverse + "," + blueReverse + "  Shape (RDD): " + radius + "," + degreeAmountToAdd + "," + decayAmount;
+  }
+
+  public String getExportString(String sep)
+  {
+    return int(red) + sep + int(green) + sep + int(blue) + sep + int(redStatic) + sep + int(greenStatic) + sep + int(blueStatic) + sep + int(redReverse) + sep + int(greenReverse) + sep + int(blueReverse) + sep + radius + sep + degreeAmountToAdd + sep + decayAmount;
   }
 }
 
@@ -141,7 +191,7 @@ public class RippleObject
 
   public void decayObject()
   {
-    decay += 1.0;
+    decay += colorStyles.get(selectedColorStyle).decayAmount;
   }
 
   public float getValueForMinusValue(float colorValue, boolean colorStatic, boolean colorReverse)
@@ -214,7 +264,7 @@ public void draw()
     text(styleSelectionSuccess == "" ? "" + styleSelectionCompletion : "", 10, 60);
   }
 
-  for (int i=0; i<rippleArray.size(); i++)
+  for (int i=0; i < rippleArray.size(); i++)
   {
     RippleObject rippleObject = rippleArray.get(i);
     rippleObject.addToRipple();
@@ -235,9 +285,7 @@ public void draw()
 }
 
 boolean mouseControlling = false;
-
 float lastDegree = 0.0;
-float radius = 30.0;
 
 public int[] getRippleCoords()
 {
@@ -253,13 +301,13 @@ public int[] getRippleCoords()
   }
   else
   {
-    lastDegree += 7;
+    lastDegree += colorStyles.get(selectedColorStyle).degreeAmountToAdd;
 
-    return new int[]{1, (int)(radius*cos(lastDegree*PI/180))+width/2, (int)(radius*sin(lastDegree*PI/180))+height/2};
+    return new int[]{1, (int)(colorStyles.get(selectedColorStyle).radius*cos(lastDegree*PI/180))+width/2, (int)(colorStyles.get(selectedColorStyle).radius*sin(lastDegree*PI/180))+height/2};
   }
 }
 
-public final String[] commands = {"red", "green", "blue", "redstatic", "greenstatic", "bluestatic", "redreverse", "greenreverse", "bluereverse", "preset", "dev"};
+public final String[] commands = {"red", "green", "blue", "redstatic", "greenstatic", "bluestatic", "redreverse", "greenreverse", "bluereverse", "preset", "radius", "degreeadd", "decayamount", "dev", "export", "import"};
 
 public void keyPressed()
 {
@@ -313,6 +361,41 @@ public void keyPressed()
       case "bluereverse":
         colorStyles.get(selectedColorStyle).blueReverse = boolean(styleSelectionValue);
         break;
+      case "9":
+      case "radius":
+        colorStyles.get(selectedColorStyle).radius = float(styleSelectionValue);
+        break;
+      case "10":
+      case "degreeadd":
+        colorStyles.get(selectedColorStyle).degreeAmountToAdd = float(styleSelectionValue);
+        break;
+      case "11":
+      case "decayamount":
+        colorStyles.get(selectedColorStyle).decayAmount = float(styleSelectionValue);
+        break;
+      case "export":
+        String exportData = getExportData();
+        saveStrings(styleSelectionValue, new String[] {exportData});
+        styleSelectionSuccess = getExportData();
+        break;
+      case "import":
+        String[] presetsFile = loadStrings(styleSelectionValue);
+
+        if (styleSelectionValue.substring(0, 1).equals("[") && styleSelectionValue.substring(styleSelectionValue.length()-1, styleSelectionValue.length()).equals("]"))
+        {
+          setImportData(styleSelectionValue.substring(1, styleSelectionValue.length()-1));
+          styleSelectionSuccess = "Imported Data";
+        }
+        else if (presetsFile != null && presetsFile.length > 0)
+        {
+          setImportData(presetsFile[0]);
+          styleSelectionSuccess = "Imported Data";
+        }
+        else
+        {
+          styleSelectionError = "Invalid Data";
+        }
+        break;
       case "dev":
         devShowing = boolean(styleSelectionValue);
         break;
@@ -336,7 +419,7 @@ public void keyPressed()
         break;
     }
 
-    if (styleSelectionError == "")
+    if (styleSelectionError == "" && styleSelectionSuccess == "")
     {
       styleSelectionSuccess = "Set " + stylePartSelection + " to " + styleSelectionValue;
     }
@@ -416,6 +499,29 @@ public String arrayToString(ArrayList arr)
   str = str.substring(0, str.length()-2);
   str += "]";
   return str;
+}
+
+public String getExportData()
+{
+  String exportString = "";
+  for (int i=1; i < colorStyles.size(); i++)
+    exportString += colorStyles.get(i).getExportString(",") + ";";
+  exportString = exportString.substring(0, exportString.length()-1);
+  return exportString;
+}
+
+public void setImportData(String rawData)
+{
+  for (int i=1; i < colorStyles.size(); i++)
+    colorStyles.remove(i);
+  String[] colorStyleArrayData = rawData.split(";");
+  for (int i=0; i < colorStyleArrayData.length; i++)
+  {
+    println(colorStyleArrayData[i].toString());
+    colorStyles.add(new RippleColorStyle(colorStyleArrayData[i].split(",")));
+  }
+
+  selectedColorStyle = 0;
 }
 
 public void mousePressed()
