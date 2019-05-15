@@ -5,3 +5,5 @@ build-tmp/
 build
 presets/*
 !presets/1
+application.*
+.DS_Store

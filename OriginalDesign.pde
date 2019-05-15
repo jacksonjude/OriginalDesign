@@ -521,7 +521,10 @@ public void setImportData(String rawData)
     colorStyles.add(new RippleColorStyle(colorStyleArrayData[i].split(",")));
   }
 
-  selectedColorStyle = 0;
+  if (colorStyles.size() > 1)
+    selectedColorStyle = 1;
+  else
+    selectedColorStyle = 0;
 }
 
 public void mousePressed()
