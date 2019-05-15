@@ -17,15 +17,15 @@ boolean devEnabled = false;
 
 public class RippleColorStyle
 {
-  public float red;
-  public float green;
-  public float blue;
-  public boolean redStatic;
-  public boolean greenStatic;
-  public boolean blueStatic;
-  public boolean redReverse;
-  public boolean greenReverse;
-  public boolean blueReverse;
+  public float red = 0.0;
+  public float green = 0.0;
+  public float blue = 0.0;
+  public boolean redStatic = false;
+  public boolean greenStatic = false;
+  public boolean blueStatic = false;
+  public boolean redReverse = false;
+  public boolean greenReverse = false;
+  public boolean blueReverse = false;
 
   public RippleColorStyle(float[] colorValues)
   {
