@@ -3,3 +3,4 @@
 # Ignore compiled processing class files
 build-tmp/
 build
+presets
