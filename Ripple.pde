@@ -354,6 +354,8 @@ public void keyPressed()
   {
     if (keyString.equals(";"))
       keyString = ":";
+    else
+      keyString = keyString.toUpperCase();
   }
 
   if ((key == ENTER || key == RETURN) && !styleSelection.equals("") && styleSelection.split(" ").length >= 2)
@@ -365,7 +367,7 @@ public void keyPressed()
     styleSelectionError = "";
     styleSelectionCompletion = "";
 
-    switch (stylePartSelection)
+    switch (stylePartSelection.toLowerCase())
     {
       case "0":
       case "red":
