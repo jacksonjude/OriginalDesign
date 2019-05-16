@@ -255,7 +255,7 @@ public void draw()
     fill(0);
     text(selectedColorStyle + " " + colorStyles.get(selectedColorStyle).toString(), 10, 20);
     fill(0);
-    text("> " + styleSelection + ((frameCount%50 < 50/2 && devEnabled) ? "_" : ""), 10, 40);
+    text("> " + styleSelection.substring(0, promptPosition) + (((frameCount%50 < 50/2 && devEnabled) ? (promptPosition == styleSelection.length() ? "_" : "|") : (promptPosition == styleSelection.length() ? "" : ":")) + styleSelection.substring(promptPosition, styleSelection.length())), 10, 40);
     fill(200, 75, 50);
     text(!styleSelectionError.equals("") ? "Error: " + styleSelectionError : "", 10, 60);
     fill(40, 180, 60);
@@ -329,9 +329,19 @@ public void keyPressed()
     return;
   }
 
-  if (keyCode == ALT || keyCode == 20 || keyCode == SHIFT || keyCode == 0 || keyCode == 157) return;
+  if (keyCode == LEFT && promptPosition > 0) promptPosition--;
+  if (keyCode == RIGHT && promptPosition < styleSelection.length()) promptPosition++;
+
+  if (keyCode == ALT || keyCode == 20 || keyCode == SHIFT || keyCode == 0 || keyCode == 157 || keyCode == LEFT || keyCode == RIGHT) return;
 
   String keyString = str(char(keyCode)).toLowerCase();
+
+  if (keyCode == 186) keyString = ";";
+  if (keyCode == 191) keyString = "/";
+  if (keyCode == 219) keyString = "[";
+  if (keyCode == 221) keyString = "]";
+  if (keyCode == 188) keyString = ",";
+  if (keyCode == 190) keyString = ".";
 
   if (holdingControl)
   {
@@ -497,12 +507,12 @@ public void keyPressed()
   }
   else if (devEnabled && key != BACKSPACE && key != DELETE && key != ENTER && key != RETURN && key != TAB && keyCode != 192)
   {
-    styleSelection += keyString;
+    styleSelection = styleSelection.substring(0, promptPosition) + keyString + styleSelection.substring(promptPosition, styleSelection.length());
     promptPosition++;
   }
   else if ((key == DELETE || key == BACKSPACE) && promptPosition > 0)
   {
-    styleSelection = styleSelection.substring(0, promptPosition - 1);
+    styleSelection = styleSelection.substring(0, promptPosition - 1) + styleSelection.substring(promptPosition, styleSelection.length());
     promptPosition--;
   }
   else if ((key == TAB || keyCode == 192) && styleSelection.length() > 0 && styleSelection.split(" ").length == 1)
