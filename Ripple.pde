@@ -106,28 +106,7 @@ public class RippleColorStyle
     this.radius = data.length > 9 ? float(data[9]) : 30.0;
     this.degreeAmountToAdd = data.length > 10 ? float(data[10]) : 7.0;
     this.decayAmount = data.length > 11 ? float(data[11]) : 1.0;
-
-    println(this.red);
   }
-
-  /*public RippleColorStyle(RippleColorStyle original)
-  {
-    this.red = original.red;
-    this.green = original.green;
-    this.blue = original.blue;
-
-    this.redStatic = original.redStatic;
-    this.greenStatic = original.greenStatic;
-    this.blueStatic = original.blueStatic;
-
-    this.redReverse = original.redReverse;
-    this.greenReverse = original.greenReverse;
-    this.blueReverse = original.blueReverse;
-
-    this.radius = original.radius;
-    this.degreeAmountToAdd = original.degreeAmountToAdd;
-    this.decayAmount = original.decayAmount;
-  }*/
 
   public String toString()
   {
@@ -554,8 +533,6 @@ public void keyPressed()
         }
       }
 
-      //println(commandsThatContainSubCommand);
-
       styleSelection = commandsThatContainSubCommand.get(0).substring(0, equalPrefixSize+1) + ((commandsThatContainSubCommand.get(0).length() == equalPrefixSize+1 && commandsThatContainSubCommand.size() == 1) ? " " : "");
       //Add completion results to success selection text
       promptPosition = styleSelection.length();
@@ -599,9 +576,7 @@ public void setImportData(String rawData)
   String[] colorStyleArrayData = rawData.split(";");
   for (int i=0; i < colorStyleArrayData.length; i++)
   {
-    println(colorStyleArrayData[i].toString());
     RippleColorStyle colorStyle = new RippleColorStyle(colorStyleArrayData[i].split(","));
-    println(colorStyle.red);
     colorStyles.add(colorStyle);
   }
 
