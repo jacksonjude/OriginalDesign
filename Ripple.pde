@@ -106,6 +106,8 @@ public class RippleColorStyle
     this.radius = data.length > 9 ? float(data[9]) : 30.0;
     this.degreeAmountToAdd = data.length > 10 ? float(data[10]) : 7.0;
     this.decayAmount = data.length > 11 ? float(data[11]) : 1.0;
+
+    println(this.red);
   }
 
   public RippleColorStyle(RippleColorStyle original)
@@ -598,7 +600,9 @@ public void setImportData(String rawData)
   for (int i=0; i < colorStyleArrayData.length; i++)
   {
     println(colorStyleArrayData[i].toString());
-    colorStyles.add(new RippleColorStyle(colorStyleArrayData[i].split(",")));
+    RippleColorStyle colorStyle = new RippleColorStyle(colorStyleArrayData[i].split(","));
+    println(colorStyle.red);
+    colorStyles.add(colorStyle);
   }
 
   if (colorStyles.size() > 1)
