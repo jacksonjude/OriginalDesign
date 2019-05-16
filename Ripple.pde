@@ -1,6 +1,9 @@
 public void setup()
 {
-  size(610, 610);
+  PImage icon = loadImage("icon.png");
+  surface.setIcon(icon);
+
+  size(625, 625);
   colorStyles.add(new RippleColorStyle(new float[] {0, 0, 0}));
   colorStyles.add(new RippleColorStyle(new float[] {0, 0, 100}, new boolean[] {false, true, false}, new boolean[] {true, false, false}, new float[] {30.0, 7.0, 1.0}));
 }
@@ -234,7 +237,7 @@ public void draw()
   {
     textAlign(LEFT);
     fill(0);
-    text(selectedColorStyle + " " + colorStyles.get(selectedColorStyle).toString(), 10, 20);
+    text(selectedColorStyle + "/" + (colorStyles.size()-1) + "  " + colorStyles.get(selectedColorStyle).toString(), 10, 20);
     fill(0);
     text("> " + styleSelection.substring(0, promptPosition) + (((frameCount%50 < 50/2 && devEnabled) ? (promptPosition == styleSelection.length() ? "_" : "|") : (promptPosition == styleSelection.length() ? "" : ":")) + styleSelection.substring(promptPosition, styleSelection.length())), 10, 40);
     fill(200, 75, 50);
