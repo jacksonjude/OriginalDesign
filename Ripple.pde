@@ -110,7 +110,7 @@ public class RippleColorStyle
     println(this.red);
   }
 
-  public RippleColorStyle(RippleColorStyle original)
+  /*public RippleColorStyle(RippleColorStyle original)
   {
     this.red = original.red;
     this.green = original.green;
@@ -127,7 +127,7 @@ public class RippleColorStyle
     this.radius = original.radius;
     this.degreeAmountToAdd = original.degreeAmountToAdd;
     this.decayAmount = original.decayAmount;
-  }
+  }*/
 
   public String toString()
   {
