@@ -15,6 +15,8 @@ String styleSelectionCompletion = "";
 boolean devShowing = false;
 boolean devEnabled = false;
 
+ClipHelper cp = new ClipHelper();
+
 public class RippleColorStyle
 {
   public float red;
@@ -255,13 +257,13 @@ public void draw()
     fill(0);
     text("> " + styleSelection + ((frameCount%50 < 50/2 && devEnabled) ? "_" : ""), 10, 40);
     fill(200, 75, 50);
-    text(styleSelectionError != "" ? "Error: " + styleSelectionError : "", 10, 60);
+    text(!styleSelectionError.equals("") ? "Error: " + styleSelectionError : "", 10, 60);
     fill(40, 180, 60);
     stroke(0);
-    text(styleSelectionSuccess != "" ? "Success: " + styleSelectionSuccess : "", 10, 60);
+    text(!styleSelectionSuccess.equals("") ? "Success: " + styleSelectionSuccess : "", 10, 60);
     fill(40, 60, 180);
     stroke(0);
-    text(styleSelectionSuccess == "" ? "" + styleSelectionCompletion : "", 10, 60);
+    text(styleSelectionSuccess.equals("") ? "" + styleSelectionCompletion : "", 10, 60);
   }
 
   for (int i=0; i < rippleArray.size(); i++)
@@ -309,12 +311,42 @@ public int[] getRippleCoords()
 
 public final String[] commands = {"red", "green", "blue", "redstatic", "greenstatic", "bluestatic", "redreverse", "greenreverse", "bluereverse", "preset", "radius", "degreeadd", "decayamount", "dev", "export", "import"};
 
+Boolean holdingControl = false;
+Boolean holdingShift = false;
+int promptPosition = 0;
+
 public void keyPressed()
 {
-  String charKey = str(char(keyCode)).toLowerCase();
-  String keyString = "" + charKey;
+  if (keyCode == CONTROL)
+  {
+    holdingControl = true;
+    return;
+  }
 
-  if ((key == ENTER || key == RETURN) && styleSelection != "" && styleSelection.split(" ").length >= 2)
+  if (keyCode == SHIFT)
+  {
+    holdingShift = true;
+    return;
+  }
+
+  if (keyCode == ALT || keyCode == 20 || keyCode == SHIFT || keyCode == 0 || keyCode == 157) return;
+
+  String keyString = str(char(keyCode)).toLowerCase();
+
+  if (holdingControl)
+  {
+    if (keyString.equals("p"))
+      styleSelection += cp.pasteString();
+    return;
+  }
+
+  if (holdingShift)
+  {
+    if (keyString.equals(";"))
+      keyString = ":";
+  }
+
+  if ((key == ENTER || key == RETURN) && !styleSelection.equals("") && styleSelection.split(" ").length >= 2)
   {
     String stylePartSelection = styleSelection.split(" ")[0];
     String styleSelectionValue = styleSelection.split(" ")[1];
@@ -375,25 +407,50 @@ public void keyPressed()
         break;
       case "export":
         String exportData = getExportData();
-        saveStrings("data/presets/" + styleSelectionValue, new String[] {exportData});
+        if (styleSelectionValue.equals("copy"))
+          cp.copyString(exportData);
+        else
+          saveStrings(((styleSelectionValue.startsWith("/") || styleSelectionValue.startsWith("http")) ? "" : "data/presets/") + styleSelectionValue, new String[] {exportData});
         styleSelectionSuccess = getExportData();
         break;
       case "import":
-        String[] presetsFile = loadStrings("data/presets/" + styleSelectionValue);
-
         if (styleSelectionValue.substring(0, 1).equals("[") && styleSelectionValue.substring(styleSelectionValue.length()-1, styleSelectionValue.length()).equals("]"))
         {
           setImportData(styleSelectionValue.substring(1, styleSelectionValue.length()-1));
           styleSelectionSuccess = "Imported Data";
         }
-        else if (presetsFile != null && presetsFile.length > 0)
+        else if (styleSelectionValue.equals("paste"))
         {
-          setImportData(presetsFile[0]);
-          styleSelectionSuccess = "Imported Data";
+          String pasteString = cp.pasteString();
+          if (pasteString != null)
+          {
+            setImportData(pasteString);
+            styleSelectionSuccess = "Imported Data";
+          }
+          else
+          {
+            styleSelectionError = "Invalid Data";
+          }
         }
         else
         {
-          styleSelectionError = "Invalid Data";
+          if (styleSelectionValue.startsWith("http") && !(styleSelectionValue.matches("http[s]?://.+")))
+          {
+            styleSelectionError = "Invalid URL";
+          }
+          else
+          {
+            String[] presetsFile = loadStrings(((styleSelectionValue.startsWith("/") || styleSelectionValue.startsWith("http")) ? "" : "data/presets/") + styleSelectionValue);
+            if (presetsFile != null && presetsFile.length > 0 && !presetsFile[0].contains(" charset=UTF-8\" http-equiv=\"Content-Type\">"))
+            {
+              setImportData(presetsFile[0]);
+              styleSelectionSuccess = "Imported Data";
+            }
+            else
+            {
+              styleSelectionError = "Invalid Data";
+            }
+          }
         }
         break;
       case "dev":
@@ -419,12 +476,13 @@ public void keyPressed()
         break;
     }
 
-    if (styleSelectionError == "" && styleSelectionSuccess == "")
+    if (styleSelectionError.equals("") && styleSelectionSuccess.equals(""))
     {
       styleSelectionSuccess = "Set " + stylePartSelection + " to " + styleSelectionValue;
     }
 
     styleSelection = "";
+    promptPosition = 0;
   }
   else if ((key == ENTER || key == RETURN) && styleSelection.length() <= 0)
   {
@@ -435,14 +493,17 @@ public void keyPressed()
   {
     styleSelectionSuccess = "";
     styleSelectionError = "Type a command, then a value";
+    styleSelectionCompletion = "";
   }
   else if (devEnabled && key != BACKSPACE && key != DELETE && key != ENTER && key != RETURN && key != TAB && keyCode != 192)
   {
     styleSelection += keyString;
+    promptPosition++;
   }
-  else if ((key == DELETE || key == BACKSPACE) && styleSelection.length() > 0)
+  else if ((key == DELETE || key == BACKSPACE) && promptPosition > 0)
   {
-    styleSelection = styleSelection.substring(0, styleSelection.length() - 1);
+    styleSelection = styleSelection.substring(0, promptPosition - 1);
+    promptPosition--;
   }
   else if ((key == TAB || keyCode == 192) && styleSelection.length() > 0 && styleSelection.split(" ").length == 1)
   {
@@ -483,12 +544,19 @@ public void keyPressed()
 
       styleSelection = commandsThatContainSubCommand.get(0).substring(0, equalPrefixSize+1) + ((commandsThatContainSubCommand.get(0).length() == equalPrefixSize+1 && commandsThatContainSubCommand.size() == 1) ? " " : "");
       //Add completion results to success selection text
+      promptPosition = styleSelection.length();
 
       styleSelectionSuccess = "";
       styleSelectionError = "";
       styleSelectionCompletion = arrayToString(commandsThatContainSubCommand);
     }
   }
+}
+
+public void keyReleased()
+{
+  if (keyCode == CONTROL) holdingControl = false;
+  if (keyCode == SHIFT) holdingShift = false;
 }
 
 public String arrayToString(ArrayList arr)
