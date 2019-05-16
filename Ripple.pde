@@ -327,7 +327,11 @@ public void keyPressed()
   if (holdingControl)
   {
     if (keyString.equals("p"))
-      styleSelection += cp.pasteString();
+    {
+      String pasteString = cp.pasteString();
+      styleSelection = styleSelection.substring(0, promptPosition) + pasteString + styleSelection.substring(promptPosition, styleSelection.length());
+      promptPosition += pasteString.length();
+    }
     return;
   }
 
