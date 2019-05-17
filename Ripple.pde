@@ -495,12 +495,12 @@ public void keyPressed()
     styleSelectionError = "Type a command, then a value";
     styleSelectionCompletion = "";
   }
-  else if (devEnabled && key != BACKSPACE && key != DELETE && key != ENTER && key != RETURN && key != TAB && keyCode != 192)
+  else if (devEnabled && key != BACKSPACE && key != DELETE && key != ENTER && keyCode != 220 && keyCode != 92 && key != RETURN && key != TAB && keyCode != 192)
   {
     styleSelection = styleSelection.substring(0, promptPosition) + keyString + styleSelection.substring(promptPosition, styleSelection.length());
     promptPosition++;
   }
-  else if ((key == DELETE || key == BACKSPACE) && promptPosition > 0)
+  else if ((key == DELETE || key == BACKSPACE || keyCode == 220 || keyCode == 92) && promptPosition > 0)
   {
     styleSelection = styleSelection.substring(0, promptPosition - 1) + styleSelection.substring(promptPosition, styleSelection.length());
     promptPosition--;
