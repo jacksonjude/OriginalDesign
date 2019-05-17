@@ -1,7 +1,7 @@
 public void setup()
 {
-  PImage icon = loadImage("icon.png");
-  surface.setIcon(icon);
+  //PImage icon = loadImage("icon.png");
+  //surface.setIcon(icon);
 
   size(625, 625);
   colorStyles.add(new RippleColorStyle(new float[] {0, 0, 0}));
