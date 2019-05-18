@@ -578,7 +578,7 @@ public String getExportData()
 
 public void setImportData(String rawData)
 {
-  for (int i=1; i < colorStyles.size(); i++)
+  for (int i=colorStyles.size()-1; i > 0; i--)
     colorStyles.remove(i);
   String[] colorStyleArrayData = rawData.split(";");
   for (int i=0; i < colorStyleArrayData.length; i++)
