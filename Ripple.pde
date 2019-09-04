@@ -293,7 +293,7 @@ public int[] getRippleCoords()
   }
 }
 
-public final String[] commands = {"red", "green", "blue", "redstatic", "greenstatic", "bluestatic", "redreverse", "greenreverse", "bluereverse", "preset", "radius", "degreeadd", "decayamount", "dev", "export", "import"};
+public final String[] commands = {"red", "green", "blue", "redstatic", "greenstatic", "bluestatic", "redreverse", "greenreverse", "bluereverse", "preset", "radius", "degreeadd", "decayamount", "framerate", "dev", "export", "import"};
 
 Boolean holdingControl = false;
 Boolean holdingShift = false;
@@ -345,7 +345,7 @@ public void keyPressed()
     else
       keyString = keyString.toUpperCase();
   }
-  
+
   if ((key == ENTER || key == RETURN) && !styleSelection.equals("") && styleSelection.split(" ").length >= 2)
   {
     String stylePartSelection = styleSelection.split(" ")[0];
@@ -470,6 +470,9 @@ public void keyPressed()
         {
           styleSelectionError = parseInt(styleSelectionValue) + " is not a valid index for preset array";
         }
+        break;
+      case "framerate":
+        frameRate(float(styleSelectionValue));
         break;
       default:
         styleSelectionError = "Command not found";
